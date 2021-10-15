@@ -8,26 +8,23 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-  print('We have logged in as {0.user}'.format(client))
-
-@client.event
-async def on_message(message):
-  if message.author == client.user:
-    return
-  if message.content.startswith('$hello'):
-    await message.channel.send('Hello!')
-
-
+  print('Powering up {0.user}... ONLINE'.format(client))
 
 
 # do stuff..
 # bot function goes here
+@client.event
+async def on_message(message):
+  if message.author == client.user:
+    return
+  if message.content.startswith('!weather'):
+    await message.channel.send('Complete your query...')
 
 
 
 # Running client on the server
 # the thing inside the parenthesis will be the Bot's token which is in discord dev website
 # https://discord.com/developers/docs/intro
-client.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.Uibrdx3tX5yURDM6MK_jjVYdBIQ')
+client.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg._mzQ5zFfxbuflFB06Em0E_b5sqM')
 
 
