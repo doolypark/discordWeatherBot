@@ -26,4 +26,24 @@ async def weather(ctx):
 # Running client on the server
 # the thing inside the parenthesis will be the Bot's token which is in discord dev website
 # https://discord.com/developers/docs/intro
-bot.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.oCVn7AsAmXS6Vl02vphLDVim8v0')
+bot.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.ZcBZZQeIADmMNiXXQBhm5gcCxnU')
+'''
+prefix = "!weather"
+client = commands.Bot(command_prefix=prefix)
+
+
+@client.event
+async def on_ready():
+    print('Powering up {0.user}... ONLINE'.format(client))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="the sky for you"))
+
+
+@client.event
+async def on_message(message):
+    # checks if the person who sent the message is NOT the bot and it starts with the prefix
+    if message.author != client.user and message.content.startswith(prefix):
+        await message.channel.send(message.content)
+        await message.channel.send(type(message.content))
+
+
+client.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.ZcBZZQeIADmMNiXXQBhm5gcCxnU')
