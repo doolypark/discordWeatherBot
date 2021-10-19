@@ -42,8 +42,33 @@ async def on_ready():
 async def on_message(message):
     # checks if the person who sent the message is NOT the bot and it starts with the prefix
     if message.author != client.user and message.content.startswith(prefix):
-        await message.channel.send(message.content)
-        await message.channel.send(type(message.content))
+        msg = message.content.split()
+
+        # checks if users accidentally put more characters than the prefix
+        if msg[0] != "!weather":
+            await message.channel.send("Unrecognized command")
+            await message.channel.send(msg)
+        else:
+            # checks if there is only 1 string which is just the prefix
+            if len(msg) == 1:
+                await message.channel.send(":exclamation:Complete your command by typing \"!weather City,State\"")
+                await message.channel.send(msg)
+            elif len(msg) == 2:
+                await message.channel.send("Try checking your query. Example: !weather Dallas, Texas")
+                await message.channel.send(msg)
+            # this is where user have entered correct input
+            elif len(msg) == 3:
+                await message.channel.send("Valid input")
+                await message.channel.send(msg)
+            else:
+                await message.channel.send(":exclamation:Something went wrong")
 
 
-client.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.ZcBZZQeIADmMNiXXQBhm5gcCxnU')
+
+
+
+
+# Running client on the server
+# the thing inside the parenthesis will be the Bot's token which is in discord dev website
+# https://discord.com/developers/docs/intro
+client.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.MvwNJDuOKXJ9Zrdx6kke-cTnvk0')
