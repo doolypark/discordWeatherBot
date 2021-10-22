@@ -1,4 +1,7 @@
-import os
+import json
+import requests
+from pprint import pprint
+
 import discord
 from discord.ext import commands
 
@@ -51,15 +54,30 @@ async def on_message(message):
         else:
             # checks if there is only 1 string which is just the prefix
             if len(msg) == 1:
-                await message.channel.send(":exclamation:Complete your command by typing \"!weather City,State\"")
+                await message.channel.send(":exclamation:Complete your command by typing \"!weather City State Abbrev."
+                                           "\"")
                 await message.channel.send(msg)
             elif len(msg) == 2:
-                await message.channel.send("Try checking your query. Example: !weather Dallas, Texas")
+                await message.channel.send("Try checking your query. Example: !weather Dallas, TX")
                 await message.channel.send(msg)
             # this is where user have entered correct input
             elif len(msg) == 3:
                 await message.channel.send("Valid input")
-                await message.channel.send(msg)
+                # API calls should happen here
+                # if msg[1]and[2] city has a comma or whitespace at the end
+
+                msg[1] = msg[1].replace(",", "")  # refers to city
+                msg[2] = msg[2].replace(",", "")  # refers to state
+
+                city, state = msg[1], msg[2]
+
+                # response is saved as api calls
+                # data is a pythonic dictionary containing all the json info
+                response = requests.get(f'http://api.openweathermap.org/data/2.5/forecast?q={city},{state}&appid={api_key}')
+                data = json.loads(response.content)
+                pprint(data)
+
+
             else:
                 await message.channel.send(":exclamation:Something went wrong")
 
@@ -71,4 +89,5 @@ async def on_message(message):
 # Running client on the server
 # the thing inside the parenthesis will be the Bot's token which is in discord dev website
 # https://discord.com/developers/docs/intro
-client.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.MvwNJDuOKXJ9Zrdx6kke-cTnvk0')
+client.run('ODk3MjQxNzgxODM2NTgyOTIz.YWSzhg.9OQXLqDWZS5NvtUoDCPz8McL7J4')
+#32.7668, 'lon': -96.7836
